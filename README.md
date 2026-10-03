@@ -5,3 +5,5 @@
 1. Open project in Intellij IDEA
 2. Run Main.java
 
+Note: Software is under development.
+
