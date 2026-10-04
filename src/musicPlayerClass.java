@@ -1,4 +1,5 @@
 import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -197,6 +198,18 @@ public class musicPlayerClass {
         catch(LineUnavailableException e) {
             System.out.println("Unable To Access Audio File");
         }
+    }
+
+    public static void customFile(File file) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+
+        clip.close();
+        inputStream.close();
+
+        inputStream = AudioSystem.getAudioInputStream(file);
+        clip = AudioSystem.getClip();
+        clip.open(inputStream);
+        clip.start();
+
     }
 
 }

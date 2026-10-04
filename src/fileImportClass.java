@@ -1,3 +1,4 @@
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,8 @@ public class fileImportClass {
     File file;
     public static File[] fileList;
     List<File> list;
+
+    public static FileNameExtensionFilter fileFilter;
 
     //numOfFileFound => Number of Files Found
 
@@ -54,6 +57,8 @@ public class fileImportClass {
                     list.remove(i);
                 }
             }
+
+            fileFilter = new FileNameExtensionFilter("music",".wav");
 
             fileList = list.toArray(new File[0]);
 

@@ -20,6 +20,8 @@ public class WindowManager {
     JButton HelpButton;
     JButton AboutButton;
 
+    public static JFileChooser musicSelector;
+
     void WindowComponents() {
 
         //===========================Containers======================================//
@@ -71,6 +73,9 @@ public class WindowManager {
         toolBar.add(HelpButton);
         toolBar.add(AboutButton);
         topContainer.add(toolBar,BorderLayout.NORTH);
+
+        musicSelector = new JFileChooser();
+        musicSelector.setFileFilter(fileImportClass.fileFilter);
     }
 
     WindowManager() {

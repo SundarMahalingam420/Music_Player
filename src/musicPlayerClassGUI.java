@@ -1,6 +1,9 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class musicPlayerClassGUI implements  Runnable{
 
@@ -29,6 +32,18 @@ public class musicPlayerClassGUI implements  Runnable{
 
                 if(actionEvent.getActionCommand().equals("<<")) {
                     musicPlayerClass.prevMusic();
+                }
+                if(actionEvent.getActionCommand().equals("File")) {
+                    int returnVal = WindowManager.musicSelector.showOpenDialog(WindowManager.musicSelector);
+
+                    if(returnVal == JFileChooser.APPROVE_OPTION) {
+
+                        try {
+                            musicPlayerClass.customFile(WindowManager.musicSelector.getSelectedFile());
+                        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
                 if(actionEvent.getActionCommand().equals("About")) {
                     JOptionPane.showMessageDialog(null,Main.AppInfo,"About",JOptionPane.INFORMATION_MESSAGE);
