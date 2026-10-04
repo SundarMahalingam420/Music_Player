@@ -17,12 +17,10 @@ public class musicPlayerClassGUI implements  Runnable{
                     if(!musicPlayerClass.clip.isRunning()) {
                         musicPlayerClass.clip.start();
                     }
-                }
-
-                if(actionEvent.getActionCommand().equals("X")) {
-                    if(musicPlayerClass.clip.isRunning()) {
+                    else{
                         musicPlayerClass.clip.stop();
                     }
+
                 }
 
                 if(actionEvent.getActionCommand().equals(">>")) {

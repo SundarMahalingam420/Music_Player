@@ -10,7 +10,6 @@ public class WindowManager {
     JPanel playerContainer;
 
     JButton playButton;
-    JButton pauseButton;
     JButton previousButton;
     JButton nextButton;
 
@@ -46,11 +45,6 @@ public class WindowManager {
         playButton.setPreferredSize(new Dimension(50,35));
         playButton.addActionListener(musicPlayerClassGUI.act);
         playerContainer.add(playButton);
-
-        pauseButton = new JButton("X");
-        pauseButton.setPreferredSize(new Dimension(50,35));
-        pauseButton.addActionListener(musicPlayerClassGUI.act);
-        playerContainer.add(pauseButton);
 
         nextButton = new JButton(">>");
         nextButton.setPreferredSize(new Dimension(50,35));
