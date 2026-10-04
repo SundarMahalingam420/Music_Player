@@ -58,7 +58,7 @@ public class fileImportClass {
                 }
             }
 
-            fileFilter = new FileNameExtensionFilter("music",".wav");
+            fileFilter = new FileNameExtensionFilter("music","wav");
 
             fileList = list.toArray(new File[0]);
 

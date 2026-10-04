@@ -6,8 +6,7 @@ public class Main {
             "Programmed By: Sundar Mahalingam";
 
     public static String HelpInfo = "Controls\n" +
-            "P -> Play\n" +
-            "X -> Pause\n" +
+            "P -> Play/Pause\n" +
             "<< -> Previous\n" +
             ">> -> Next";
 

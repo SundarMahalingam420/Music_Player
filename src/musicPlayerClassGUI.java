@@ -41,7 +41,8 @@ public class musicPlayerClassGUI implements  Runnable{
                         try {
                             musicPlayerClass.customFile(WindowManager.musicSelector.getSelectedFile());
                         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
-                            throw new RuntimeException(e);
+                            JOptionPane.showMessageDialog(null,e,"Error",JOptionPane.INFORMATION_MESSAGE);
+                            musicPlayerClass.nextMusic();
                         }
                     }
                 }
