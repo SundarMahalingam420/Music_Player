@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class musicPlayerClass {
+public class musicPlayerClass implements Runnable{
 
     static AudioInputStream inputStream;
     public static Clip clip;
@@ -16,8 +16,8 @@ public class musicPlayerClass {
     */
     static int currentFileIndex = 0;
 
-
-    musicPlayerClass() {
+    @Override
+    public void run() {
         try{
             System.out.println("Starting Music Player...");
 
@@ -37,6 +37,7 @@ public class musicPlayerClass {
             //starts playing the music
 
             clip.start();
+
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -88,7 +89,6 @@ public class musicPlayerClass {
             }
 
         }
-
     }
 
     public static void nextMusic() {
@@ -212,5 +212,25 @@ public class musicPlayerClass {
 
     }
 
+    public static String getMusicDuration() {
+        int a = (int) ((int) clip.getMicrosecondLength() * 0.000001);
+
+        int secondH;
+        int minuteH = 0;
+
+        if(a < 60) {
+            secondH = a;
+            return minuteH+":"+secondH;
+        }
+
+        else{
+            while(a > 60) {
+                minuteH++;
+                a = a - 60;
+            }
+            secondH = a;
+            return minuteH+":"+secondH;
+        }
+    }
 }
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class musicPlayerClassGUI implements  Runnable{
 
+    WindowManager wm;
     public static ActionListener act;
 
     @Override
@@ -28,10 +29,14 @@ public class musicPlayerClassGUI implements  Runnable{
 
                 if(actionEvent.getActionCommand().equals(">>")) {
                     musicPlayerClass.nextMusic();
+                    System.out.println("Music Duration="+musicPlayerClass.getMusicDuration());
+                    TimelineClass.secondHand = 0;
+
                 }
 
                 if(actionEvent.getActionCommand().equals("<<")) {
                     musicPlayerClass.prevMusic();
+                    TimelineClass.secondHand = 0;
                 }
                 if(actionEvent.getActionCommand().equals("File")) {
                     int returnVal = WindowManager.musicSelector.showOpenDialog(WindowManager.musicSelector);
@@ -45,6 +50,7 @@ public class musicPlayerClassGUI implements  Runnable{
                             musicPlayerClass.nextMusic();
                         }
                     }
+                    TimelineClass.secondHand = 0;
                 }
                 if(actionEvent.getActionCommand().equals("About")) {
                     JOptionPane.showMessageDialog(null,Main.AppInfo,"About",JOptionPane.INFORMATION_MESSAGE);
@@ -56,4 +62,5 @@ public class musicPlayerClassGUI implements  Runnable{
         };
 
     }
+
 }

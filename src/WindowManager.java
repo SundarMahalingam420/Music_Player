@@ -8,12 +8,14 @@ public class WindowManager {
 
     JPanel topContainer;
     JPanel playerContainer;
+    public static JPanel timelineContainer;
 
     JButton playButton;
     JButton previousButton;
     JButton nextButton;
 
     JLabel currentMusic;
+    public static JLabel currentMusicTimeline;
 
     JToolBar toolBar;
     JButton FileButton;
@@ -31,10 +33,18 @@ public class WindowManager {
         topContainer.setOpaque(true);
 
         playerContainer = new JPanel();
-        playerContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
+        playerContainer.setLayout(new FlowLayout());
         playerContainer.setBackground(new Color(0,0,255,200));
         playerContainer.setOpaque(true);
         playerContainer.setPreferredSize(new Dimension(200,50));
+
+        timelineContainer = new JPanel();
+        timelineContainer.setLayout(new FlowLayout());
+        timelineContainer.setBackground(Color.LIGHT_GRAY);
+        timelineContainer.setOpaque(true);
+        timelineContainer.setPreferredSize(new Dimension(300,25));
+
+        playerContainer.add(timelineContainer);
 
         //=============================Buttons========================================//
 
@@ -76,6 +86,10 @@ public class WindowManager {
 
         musicSelector = new JFileChooser();
         musicSelector.setFileFilter(fileImportClass.fileFilter);
+
+        currentMusicTimeline = new JLabel();
+        timelineContainer.add(currentMusicTimeline);
+
     }
 
     WindowManager() {
@@ -96,4 +110,5 @@ public class WindowManager {
 
         playButton.setBounds(topContainer.getWidth()/2 - 25, topContainer.getHeight()/2 - 25,50,50);
     }
+
 }

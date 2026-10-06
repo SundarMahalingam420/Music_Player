@@ -14,11 +14,19 @@ public class Main {
         System.out.println("My Music Player!");
 
         musicPlayerClassGUI bb = new musicPlayerClassGUI();
-        Thread thread = new Thread(bb);
-        thread.start();
+        Thread threadGUI = new Thread(bb);
+        threadGUI.start();
+
+        fileImportClass ff = new fileImportClass();
+
+        musicPlayerClass music = new musicPlayerClass();
+        Thread thread2 = new Thread(music);
+        thread2.start();
+
 
         WindowManager win = new WindowManager();
-        fileImportClass ff = new fileImportClass();
-        musicPlayerClass music = new musicPlayerClass();
+        TimelineClass tc = new TimelineClass();
+
+
     }
 }
