@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class musicPlayerClassGUI implements  Runnable{
 
-    WindowManager wm;
     public static ActionListener act;
 
     @Override
@@ -19,9 +18,11 @@ public class musicPlayerClassGUI implements  Runnable{
             public void actionPerformed(ActionEvent actionEvent) {
                 if(actionEvent.getActionCommand().equals("P")) {
                     if(!musicPlayerClass.clip.isRunning()) {
+                        TimelineClass.isPaused = false;
                         musicPlayerClass.clip.start();
                     }
                     else{
+                        TimelineClass.isPaused = true;
                         musicPlayerClass.clip.stop();
                     }
 
@@ -31,15 +32,21 @@ public class musicPlayerClassGUI implements  Runnable{
                     musicPlayerClass.nextMusic();
                     System.out.println("Music Duration="+musicPlayerClass.getMusicDuration());
                     TimelineClass.secondHand = 0;
+                    TimelineClass.timeLineProgress = 0;
 
                 }
 
                 if(actionEvent.getActionCommand().equals("<<")) {
                     musicPlayerClass.prevMusic();
                     TimelineClass.secondHand = 0;
+                    TimelineClass.timeLineProgress = 0;
                 }
                 if(actionEvent.getActionCommand().equals("File")) {
                     int returnVal = WindowManager.musicSelector.showOpenDialog(WindowManager.musicSelector);
+
+                    if(returnVal == JFileChooser.CANCEL_OPTION) {
+                        return;
+                    }
 
                     if(returnVal == JFileChooser.APPROVE_OPTION) {
 

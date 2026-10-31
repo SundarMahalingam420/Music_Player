@@ -10,6 +10,10 @@ public class WindowManager {
     JPanel playerContainer;
     public static JPanel timelineContainer;
 
+    //Test
+    public static JProgressBar timeLine;
+
+
     JButton playButton;
     JButton previousButton;
     JButton nextButton;
@@ -45,6 +49,11 @@ public class WindowManager {
         timelineContainer.setPreferredSize(new Dimension(300,25));
 
         playerContainer.add(timelineContainer);
+
+        //--------Test=================================================================//
+        timeLine = new JProgressBar();
+        timeLine.setMinimum(0);
+        timelineContainer.add(timeLine);
 
         //=============================Buttons========================================//
 

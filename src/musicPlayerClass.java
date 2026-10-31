@@ -215,6 +215,8 @@ public class musicPlayerClass implements Runnable{
     public static String getMusicDuration() {
         int a = (int) ((int) clip.getMicrosecondLength() * 0.000001);
 
+        WindowManager.timeLine.setMaximum((int) ((int) clip.getMicrosecondLength() * 0.000001));
+
         int secondH;
         int minuteH = 0;
 
@@ -229,6 +231,10 @@ public class musicPlayerClass implements Runnable{
                 a = a - 60;
             }
             secondH = a;
+
+            if(secondH < 10) {
+                return minuteH+":"+"0"+secondH;
+            }
             return minuteH+":"+secondH;
         }
     }
