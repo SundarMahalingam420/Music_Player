@@ -29,11 +29,22 @@ public class TimelineClass {
         }
     }
 
+    public static void resetTimeline() {
+        TimelineClass.secondHand = 0;
+        TimelineClass.minuteHand = 0;
+        timeLineProgress = 0;
+    }
+
     TimelineClass() {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+
+                if(fileImportClass.fileList.length == 0 && !musicPlayerClass.clip.isRunning()) {
+                    isPaused = true;
+                }
+
                 if(!isPaused) {
 
                     calculateCurrentMusicDuration();
@@ -46,15 +57,14 @@ public class TimelineClass {
                     WindowManager.currentMusicTimeline.repaint();
 
                     if(musicPlayerClass.getMusicDuration().equals(getCurrentMusicDuration())) {
+
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        TimelineClass.secondHand = 0;
-                        TimelineClass.minuteHand = 0;
-                        timeLineProgress = 0;
                         musicPlayerClass.nextMusic();
+                        TimelineClass.resetTimeline();
                     }
                 }
 

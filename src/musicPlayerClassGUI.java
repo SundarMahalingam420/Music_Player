@@ -29,19 +29,34 @@ public class musicPlayerClassGUI implements  Runnable{
                 }
 
                 if(actionEvent.getActionCommand().equals(">>")) {
-                    musicPlayerClass.nextMusic();
-                    System.out.println("Music Duration="+musicPlayerClass.getMusicDuration());
-                    TimelineClass.secondHand = 0;
-                    TimelineClass.timeLineProgress = 0;
+
+                    if(fileImportClass.fileList.length == 0) {
+                        System.out.println("Music Directory Does Not Exists");
+                        return;
+                    }
+                    else{
+                        musicPlayerClass.nextMusic();
+                        System.out.println("Music Duration="+musicPlayerClass.getMusicDuration());
+                        TimelineClass.secondHand = 0;
+                        TimelineClass.timeLineProgress = 0;
+                    }
 
                 }
 
                 if(actionEvent.getActionCommand().equals("<<")) {
-                    musicPlayerClass.prevMusic();
-                    TimelineClass.secondHand = 0;
-                    TimelineClass.timeLineProgress = 0;
+                    if(fileImportClass.fileList.length == 0) {
+                        System.out.println("Music Directory Does Not Exists");
+                        return;
+                    }
+                    else{
+                        musicPlayerClass.prevMusic();
+                        System.out.println("Music Duration="+musicPlayerClass.getMusicDuration());
+                        TimelineClass.secondHand = 0;
+                        TimelineClass.timeLineProgress = 0;
+                    }
                 }
                 if(actionEvent.getActionCommand().equals("File")) {
+                    WindowManager.musicSelector.setFileSelectionMode(JFileChooser.FILES_ONLY);
                     int returnVal = WindowManager.musicSelector.showOpenDialog(WindowManager.musicSelector);
 
                     if(returnVal == JFileChooser.CANCEL_OPTION) {
@@ -59,10 +74,19 @@ public class musicPlayerClassGUI implements  Runnable{
                     }
                     TimelineClass.secondHand = 0;
                 }
+                if(actionEvent.getActionCommand().equals("Folder")) {
+                    WindowManager.musicSelector.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                    int returnVal = WindowManager.musicSelector.showOpenDialog(WindowManager.musicSelector);
+
+                    if(returnVal == JFileChooser.APPROVE_OPTION) {
+                        fileImportClass.setFolderPath(WindowManager.musicSelector.getSelectedFile().getPath());
+                        TimelineClass.resetTimeline();
+                    }
+                }
                 if(actionEvent.getActionCommand().equals("About")) {
                     JOptionPane.showMessageDialog(null,Main.AppInfo,"About",JOptionPane.INFORMATION_MESSAGE);
                 }
-                if(actionEvent.getActionCommand().equals("Help")) {
+                if(actionEvent.getActionCommand().equals("Controls")) {
                     JOptionPane.showMessageDialog(null,Main.HelpInfo,"Help",JOptionPane.INFORMATION_MESSAGE);
                 }
             }

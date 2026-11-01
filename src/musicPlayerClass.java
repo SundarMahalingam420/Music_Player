@@ -16,6 +16,25 @@ public class musicPlayerClass implements Runnable{
     */
     static int currentFileIndex = 0;
 
+    // Convert audio format to PCM audio format for the speakers (adds supports for MP3 files)
+    public static AudioInputStream audioDecoder() {
+        AudioFormat baseFormat = inputStream.getFormat();
+
+        AudioFormat decodedFormat = new AudioFormat(
+                AudioFormat.Encoding.PCM_SIGNED,
+                baseFormat.getSampleRate(),
+                16,
+                baseFormat.getChannels(),
+                baseFormat.getChannels() * 2,
+                baseFormat.getSampleRate(),
+                false
+        );
+
+        AudioInputStream decodedInput = AudioSystem.getAudioInputStream(decodedFormat, inputStream);
+        return decodedInput;
+    }
+
+
     @Override
     public void run() {
         try{
@@ -28,19 +47,26 @@ public class musicPlayerClass implements Runnable{
             // inputStream gets the file path from the fileList array in the fileImportClass
             inputStream = AudioSystem.getAudioInputStream(fileImportClass.fileList[currentFileIndex]);
 
+
             clip = AudioSystem.getClip();
 
             //clip object opens the inputStream and get the file to play
 
-            clip.open(inputStream);
+            clip.open(audioDecoder());
 
             //starts playing the music
 
             clip.start();
 
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("Starting Without Music Directory");
         }
 
         String res = "";
@@ -92,10 +118,15 @@ public class musicPlayerClass implements Runnable{
     }
 
     public static void nextMusic() {
-        if(clip.isRunning()) {
-            clip.stop();
-        }
+
         try{
+
+            if(clip.isRunning()) {
+                clip.close();
+                inputStream.close();
+
+                TimelineClass.resetTimeline();
+            }
 
             //Clip and inputStream is closed to release the previous file data from the memory.
 
@@ -124,6 +155,7 @@ public class musicPlayerClass implements Runnable{
             //Prints the name of the current file
 
             System.out.println("Now Playing: "+fileImportClass.fileList[currentFileIndex]);
+            WindowManager.currentMusic.setText("Now Playing: "+ fileImportClass.fileList[currentFileIndex]);
 
             /*
             Sets the path of the next file, Reinitialize the inputStream and clip
@@ -134,19 +166,29 @@ public class musicPlayerClass implements Runnable{
 
             inputStream = AudioSystem.getAudioInputStream(fileImportClass.fileList[currentFileIndex]);
             clip = AudioSystem.getClip();
-            clip.open(inputStream);
+            clip.open(musicPlayerClass.audioDecoder());
             clip.start();
         }
         catch(Exception e) {
-            e.printStackTrace();
+            if(e.getClass().getName().equals("java.lang.ArrayIndexOutOfBoundsException")) {
+                System.out.println("No Music Directory Exists");
+            }
+            else{
+                e.printStackTrace();
+            }
         }
     }
 
     public static void prevMusic() {
-        if(clip.isRunning()) {
-            clip.stop();
-        }
+
         try{
+
+            if(clip.isRunning()) {
+                clip.close();
+                inputStream.close();
+
+                TimelineClass.resetTimeline();
+            }
 
             //Clip and inputStream is closed to release the previous file data from the memory.
 
@@ -175,6 +217,7 @@ public class musicPlayerClass implements Runnable{
             //prints the name of the current file
 
             System.out.println("Now Playing: "+fileImportClass.fileList[currentFileIndex]);
+            WindowManager.currentMusic.setText("Now Playing: "+ fileImportClass.fileList[currentFileIndex]);
 
             /*
             Sets the path of the next file, Reinitialize the inputStream and clip
@@ -185,12 +228,12 @@ public class musicPlayerClass implements Runnable{
 
             inputStream = AudioSystem.getAudioInputStream(fileImportClass.fileList[currentFileIndex]);
             clip = AudioSystem.getClip();
-            clip.open(inputStream);
+            clip.open(musicPlayerClass.audioDecoder());
             clip.start();
 
         }
         catch(UnsupportedAudioFileException e) {
-            System.out.println("File Format Not Supported. Please use .wav, .aif, .aiff, .au, SND file formats only");
+            System.out.println("File Format Not Supported. Please use .wav, .mp3, .aif, .aiff, .au, SND file formats only");
         }
         catch(IOException e) {
             e.printStackTrace();
@@ -198,17 +241,37 @@ public class musicPlayerClass implements Runnable{
         catch(LineUnavailableException e) {
             System.out.println("Unable To Access Audio File");
         }
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("No Music Directory Exists");
+        }
     }
 
     public static void customFile(File file) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 
-        clip.close();
-        inputStream.close();
+        WindowManager.currentMusic.setText("Now Playing: "+ fileImportClass.fileList[currentFileIndex]);
+        WindowManager.currentMusic.repaint();
 
-        inputStream = AudioSystem.getAudioInputStream(file);
-        clip = AudioSystem.getClip();
-        clip.open(inputStream);
-        clip.start();
+        TimelineClass.isPaused = false;
+        TimelineClass.resetTimeline();
+
+        if(clip == null) {
+            inputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+
+            TimelineClass tm = new TimelineClass();
+        }
+
+        else{
+            clip.close();
+            inputStream.close();
+
+            inputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(musicPlayerClass.audioDecoder());
+            clip.start();
+        }
 
     }
 
@@ -222,6 +285,9 @@ public class musicPlayerClass implements Runnable{
 
         if(a < 60) {
             secondH = a;
+            if(a < 10) {
+                return minuteH+":"+"0"+secondH;
+            }
             return minuteH+":"+secondH;
         }
 

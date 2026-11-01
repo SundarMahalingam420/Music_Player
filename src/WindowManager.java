@@ -6,6 +6,7 @@ public class WindowManager {
 
     JFrame window;
 
+    JMenuBar OptionBar;
     JPanel topContainer;
     JPanel playerContainer;
     public static JPanel timelineContainer;
@@ -13,28 +14,59 @@ public class WindowManager {
     //Test
     public static JProgressBar timeLine;
 
+    JMenu OpenOption;
+    JMenuItem FileOpen;
+    JMenuItem DirectoryOpen;
+
+    JMenu HelpOption;
+    JMenuItem Controls;
+    JMenuItem About;
 
     JButton playButton;
     JButton previousButton;
     JButton nextButton;
 
-    JLabel currentMusic;
+    static JLabel currentMusic;
     public static JLabel currentMusicTimeline;
 
-    JToolBar toolBar;
-    JButton FileButton;
-    JButton HelpButton;
-    JButton AboutButton;
 
     public static JFileChooser musicSelector;
 
     void WindowComponents() {
 
+        OptionBar = new JMenuBar();
+
+        FileOpen = new JMenuItem("File");
+        FileOpen.addActionListener(musicPlayerClassGUI.act);
+
+        DirectoryOpen = new JMenuItem("Folder");
+        DirectoryOpen.addActionListener(musicPlayerClassGUI.act);
+
+        OpenOption = new JMenu("Open");
+        OpenOption.add(FileOpen);
+        OpenOption.add(DirectoryOpen);
+
+        OptionBar.add(OpenOption);
+
+        HelpOption = new JMenu("Help");
+
+        Controls = new JMenuItem("Controls");
+        Controls.addActionListener(musicPlayerClassGUI.act);
+        HelpOption.add(Controls);
+
+        About = new JMenuItem("About");
+        About.addActionListener(musicPlayerClassGUI.act);
+        HelpOption.add(About);
+
+        OptionBar.add(HelpOption);
+
         //===========================Containers======================================//
+
         topContainer = new JPanel();
         topContainer.setBackground(new Color(0,0,255,100));
         topContainer.setLayout(new BorderLayout());
         topContainer.setOpaque(true);
+
 
         playerContainer = new JPanel();
         playerContainer.setLayout(new FlowLayout());
@@ -72,26 +104,11 @@ public class WindowManager {
         nextButton.addActionListener(musicPlayerClassGUI.act);
         playerContainer.add(nextButton);
 
-        currentMusic = new JLabel(new ImageIcon("/home/sundar/Downloads/pixil-frame-0.png"));
+        currentMusic = new JLabel();
+        currentMusic.setOpaque(true);
+        WindowManager.currentMusic.setText("Now Playing: "+ fileImportClass.fileList[musicPlayerClass.currentFileIndex]);
+        topContainer.add(new JLabel(new ImageIcon("/home/sundar/Downloads/pixil-frame-0.png")),BorderLayout.CENTER);
         topContainer.add(currentMusic,BorderLayout.SOUTH);
-
-        FileButton = new JButton("File");
-        FileButton.addActionListener(musicPlayerClassGUI.act);
-
-        HelpButton = new JButton("Help");
-        HelpButton.addActionListener(musicPlayerClassGUI.act);
-
-        AboutButton = new JButton("About");
-        AboutButton.addActionListener(musicPlayerClassGUI.act);
-
-        toolBar = new JToolBar();
-        toolBar.setPreferredSize(new Dimension(0,25));
-        toolBar.setFloatable(false);
-        toolBar.setBackground(new Color(0,0,255,100));
-        toolBar.add(FileButton);
-        toolBar.add(HelpButton);
-        toolBar.add(AboutButton);
-        topContainer.add(toolBar,BorderLayout.NORTH);
 
         musicSelector = new JFileChooser();
         musicSelector.setFileFilter(fileImportClass.fileFilter);
@@ -112,6 +129,7 @@ public class WindowManager {
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
+        window.setJMenuBar(OptionBar);
         window.add(topContainer, BorderLayout.CENTER);
         window.add(playerContainer, BorderLayout.SOUTH);
         window.pack();
