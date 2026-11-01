@@ -1,7 +1,8 @@
 
 <img width="975" height="799" alt="image" src="https://github.com/user-attachments/assets/44c62c58-714d-4584-a7ce-9396e4df458d" />
 
-Music_Player is a audio player that uses Pulse Code Modulation(PCM) decorder to play audio files.
+
+**Music_Player is a audio player that uses Pulse Code Modulation(PCM) decorder to play audio files.**
 
 # How To Open (Intellij IDEA)
 1. Open project in Intellij IDEA
